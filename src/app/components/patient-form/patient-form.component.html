@@ -1,0 +1,155 @@
+<!-- patient-form.component.html -->
+<div class="patient-form-container">
+  <h2>Patient Information Form</h2>
+
+  <div
+    class="appointment-details"
+    *ngIf="
+      selectedDate && selectedStartTime && selectedEndTime && selectedDoctor
+    "
+  >
+    <p>
+      <strong>Appointment Date:</strong> {{ selectedDate | date : "fullDate" }}
+    </p>
+    <p>
+      <strong>Appointment Time:</strong> {{ selectedStartTime }} -
+      {{ selectedEndTime }}
+    </p>
+    <p>
+      <strong>Doctor:</strong> {{ selectedDoctor.imie }}
+      {{ selectedDoctor.nazwisko }} ({{ selectedDoctor.specjalizacja }})
+    </p>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #patientForm="ngForm">
+
+    <div>
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        required
+        [(ngModel)]="patientData.name"
+        name="name"
+        #name="ngModel"
+      />
+      <div *ngIf="name.invalid && name.touched" class="error">
+        Name is required.
+      </div>
+    </div>
+
+    <div>
+      <label for="surname">Surname:</label>
+      <input
+        type="text"
+        id="surname"
+        required
+        [(ngModel)]="patientData.surname"
+        name="surname"
+        #surname="ngModel"
+      />
+      <div *ngIf="surname.invalid && surname.touched" class="error">
+        Surname is required.
+      </div>
+    </div>
+
+    <div>
+      <label>Sex:</label>
+      <label>
+        <input
+          type="radio"
+          [(ngModel)]="patientData.sex"
+          name="sex"
+          value="Male"
+          required
+        />
+        Male
+      </label>
+      <label>
+        <input
+          type="radio"
+          [(ngModel)]="patientData.sex"
+          name="sex"
+          value="Female"
+          required
+        />
+        Female
+      </label>
+      <label>
+        <input
+          type="radio"
+          [(ngModel)]="patientData.sex"
+          name="sex"
+          value="Other"
+          required
+        />
+        Other
+      </label>
+      <div
+        *ngIf="
+          patientForm.form.controls['sex']?.invalid &&
+          patientForm.form.controls['sex']?.touched
+        "
+        class="error"
+      >
+        Sex is required.
+      </div>
+    </div>
+
+    <!-- Age Field -->
+    <div>
+      <label for="age">Age:</label>
+      <input
+        type="number"
+        id="age"
+        required
+        [(ngModel)]="patientData.age"
+        name="age"
+        #age="ngModel"
+        min="0"
+      />
+      <div *ngIf="age.invalid && age.touched" class="error">
+        Valid age is required.
+      </div>
+    </div>
+
+    <!-- Purpose of Visit -->
+    <div>
+      <label>Purpose of Visit:</label>
+      <div *ngFor="let purpose of purposes">
+        <label>
+          <input
+            type="radio"
+            [(ngModel)]="patientData.purpose"
+            name="purpose"
+            [value]="purpose"
+            required
+          />
+          {{ purpose }}
+        </label>
+      </div>
+      <div
+        *ngIf="
+          patientForm.form.controls['purpose']?.invalid &&
+          patientForm.form.controls['purpose']?.touched
+        "
+        class="error"
+      >
+        Purpose is required.
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div>
+      <label for="additionalInfo">Additional Information:</label>
+      <textarea
+        id="additionalInfo"
+        [(ngModel)]="patientData.additionalInfo"
+        name="additionalInfo"
+      ></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="patientForm.invalid">Submit</button>
+  </form>
+</div>

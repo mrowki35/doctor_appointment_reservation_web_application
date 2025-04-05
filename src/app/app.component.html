@@ -1,0 +1,134 @@
+<!-- navbar.component.html -->
+<nav class="navbar custom-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/home">
+      <span class="material-icons me-2">medical_services</span>
+      DoctorApp
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ng-container *ngIf="user$ | async as user">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home">
+              <span class="material-icons align-middle">home</span> Home
+            </a>
+          </li>
+          <li
+            class="nav-item"
+            *ngIf="user.role !== 'Lekarz' && user.role !== 'Admin'"
+          >
+            <a class="nav-link" routerLink="/calendar">
+              <span class="material-icons align-middle">calendar_today</span>
+              Calendar
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role !== 'Lekarz'">
+            <a class="nav-link" routerLink="/doctorlist">
+              <span class="material-icons align-middle">medical_services</span>
+              Doctor lists
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role === 'Admin'">
+            <a class="nav-link" routerLink="/users">
+              <span class="material-icons align-middle">group</span>
+              Users
+            </a>
+          </li>
+          <li
+            class="nav-item"
+            *ngIf="user.role !== 'Lekarz' && user.role !== 'Admin'"
+          >
+            <a class="nav-link" routerLink="/rezerwacje">
+              <span class="material-icons align-middle">book</span> Reservation
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role === 'Admin'">
+            <a class="nav-link" routerLink="/comments">
+              <span class="material-icons align-middle">comment</span>
+              Comments
+            </a>
+          </li>
+          <li
+            class="nav-item"
+            *ngIf="user.role !== 'Lekarz' && user.role !== 'Admin'"
+          >
+            <a class="nav-link" routerLink="/koszyk">
+              <span class="material-icons align-middle">shopping_cart</span>
+              Shop cart
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role === 'Admin'">
+            <a class="nav-link" routerLink="/admin">
+              <span class="material-icons align-middle"
+                >admin_panel_settings</span
+              >
+              Admin Panel
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role === 'Admin'">
+            <a class="nav-link" routerLink="/register-doctor">
+              <span class="material-icons align-middle"></span> Register Doctor
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role === 'Lekarz'">
+            <a class="nav-link" routerLink="/harmonogram">
+              <span class="material-icons align-middle">medical_services</span>
+              My calendar
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role === 'Lekarz'">
+            <a class="nav-link" routerLink="/edit-harmonogram">
+              <span class="material-icons align-middle">medical_services</span>
+              Zarządzanie harmonogramem
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ng-container *ngIf="user$ | async as user; else guest">
+          <li class="nav-item">
+            <a class="nav-link disabled" style="pointer-events: none">
+              <span class="material-icons align-middle">account_circle</span>
+              Witaj, {{ user.email }} ({{ user.role }})
+            </a>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-light ms-2" (click)="logout()">
+              <span class="material-icons align-middle">logout</span> Logout
+            </button>
+          </li>
+        </ng-container>
+        <ng-template #guest>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login">
+              <span class="material-icons align-middle">login</span> Logging
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/register">
+              <span class="material-icons align-middle">person_add</span>
+              Register
+            </a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="container mt-4">
+  <router-outlet></router-outlet>
+</main>

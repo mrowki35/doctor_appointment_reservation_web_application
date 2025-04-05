@@ -1,0 +1,121 @@
+<div class="calendar-container">
+
+  <div class="doctor-selection">
+    <label for="doctor-select">Select Doctor:</label>
+    <select id="doctor-select" [(ngModel)]="selectedDoctorId">
+      <option *ngFor="let doctor of doctors" [value]="doctor.id">
+        {{ doctor.imie }} {{ doctor.nazwisko }} ({{ doctor.specjalizacja }})
+      </option>
+    </select>
+  </div>
+
+
+  <div class="calendar-navigation">
+    <button (click)="navigateWeeks('prev')">Previous Week</button>
+
+    <button (click)="goToToday()">Today</button>
+
+    <span>
+      {{ selectedWeek[0] | date : "MMM d, yyyy" }} -
+      {{ selectedWeek[6] | date : "MMM d, yyyy" }}
+    </span>
+    <button (click)="navigateWeeks('next')">Next Week</button>
+  </div>
+
+  <div class="calendar">
+
+    <div class="grid-header">
+      <div class="time-header">Time</div>
+
+      <div
+        *ngFor="let day of selectedWeek"
+        [class.today-column]="day.toDateString() === today.toDateString()"
+        class="day-header"
+      >
+        <div class="day-name">{{ daysOfWeek[getDayIndex(day)] }}</div>
+        <div class="day-date">{{ day | date : "MMM d" }}</div>
+      </div>
+    </div>
+
+    <div class="grid-body">
+      <div
+        *ngFor="let absoluteIndex of displayedHourIndices"
+        class="grid-row"
+      >
+
+        <div class="time-slot">
+          {{ hours[absoluteIndex] }}
+        </div>
+
+
+        <div
+          *ngFor="let day of selectedWeek"
+          [class.today-column]="day.toDateString() === today.toDateString()"
+          class="day-cell"
+        >
+
+          <div
+            class="availability-slot"
+            [ngClass]="{
+              red: availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'red',
+              black: availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'black',
+              green: availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'green',
+              grey: availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'grey',
+              blue: availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'blue',
+              yellow: availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'yellow',
+              'light-blue': availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'light-blue',
+              'selected-range':
+                selectedRangeDay?.getTime() === day.getTime() &&
+                rangeStart !== null &&
+                absoluteIndex >= rangeStart &&
+                absoluteIndex <= (rangeEnd ?? rangeStart),
+              'current-hour':
+                day.toDateString() === today.toDateString() &&
+                hours[absoluteIndex] === currentHourString
+            }"
+            (click)="onSlotClick(day, hours[absoluteIndex])"
+          >
+
+            {{
+              availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'black'
+                ? 'Doctor Absent'
+                : availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'red'
+                  ? 'No Availability'
+                  : availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'green'
+                    ? 'Available'
+                    : availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'grey'
+                      ? 'Done'
+                      : availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'blue'
+                        ? 'Your Reservation'
+                        : availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'yellow'
+                          ? 'Booked by Others'
+                          : availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === "light-blue"
+                          ? "Your Reservation (Unpaid)"
+                          : 'Unknown'
+            }}
+            <button
+              *ngIf="
+                availabilityMap[getAvailabilityKey(day, hours[absoluteIndex])] === 'light-blue'
+              "
+              (click)="payForReservation()"
+              class="pay-btn"
+            >
+              Pay
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 1rem">
+    <button class="make-res-btn" (click)="makeReservation()">
+      Make Reservation
+    </button>
+  </div>
+
+  <div class="vertical-nav">
+    <button (click)="scrollUp()">&#9650; Up</button>
+    <button (click)="scrollDown()">&#9660; Down</button>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<!-- src/app/components/users-list/users-list.component.html -->
+
+<div class="users-container">
+  <!-- All Users Table -->
+  <h2>All Users</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of combinedUsers$ | async">
+        <td>{{ entry.user.email }}</td>
+        <td>{{ entry.user.role }}</td>
+        <td>
+          <span
+            [ngClass]="{
+              banned: entry.isBanned,
+              active: !entry.isBanned
+            }"
+          >
+            {{ entry.isBanned ? "Banned" : "Active" }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Ban User Section -->
+  <div class="ban-section">
+    <h3>Ban a User</h3>
+    <input
+      type="email"
+      [(ngModel)]="emailToBan"
+      placeholder="Enter user's email"
+    />
+    <button (click)="banUser()" [disabled]="!emailToBan">Ban User</button>
+  </div>
+
+  <!-- Unban User Section -->
+  <div class="unban-section">
+    <h3>Unban a User</h3>
+    <input
+      type="email"
+      [(ngModel)]="emailToUnban"
+      placeholder="Enter user's email"
+    />
+    <button (click)="unbanUserManual()" [disabled]="!emailToUnban">
+      Unban User
+    </button>
+  </div>
+
+  <!-- Banned Users Table -->
+  <h2>Banned Users</h2>
+  <table class="banned-users-table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bannedUser of bannedUsers$ | async">
+        <td>{{ bannedUser.email }}</td>
+        <td>{{ bannedUser.role }}</td>
+        <td>
+          <button (click)="unbanUserFromTable(bannedUser.email)">Unban</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

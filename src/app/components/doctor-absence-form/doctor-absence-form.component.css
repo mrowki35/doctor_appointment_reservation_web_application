@@ -1,0 +1,39 @@
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+body {
+  background-color: lightslategray;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+  box-sizing: border-box;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.calendar-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: red;
+  color: white;
+}
+
+.submit-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}

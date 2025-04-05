@@ -1,0 +1,64 @@
+
+.custom-navbar {
+  background-color: #333333;
+  padding: 0.5rem 1rem;
+}
+
+.custom-navbar .navbar-brand {
+  color: #ffffff; 
+  font-weight: 500;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.custom-navbar .navbar-brand .material-icons {
+  font-size: 1.5rem;
+  color: #ffffff; 
+}
+
+.custom-navbar .navbar-toggler {
+  border-color: #ffffff; 
+}
+
+.custom-navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.custom-navbar .nav-link {
+  color: #ffffff; 
+  margin-right: 1rem;
+  transition: color 0.3s ease;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .nav-link:focus {
+  color: #dddddd; 
+}
+
+.custom-navbar .nav-link.disabled {
+  color: #888888;
+}
+
+.custom-navbar .btn-outline-light {
+  border-color: #ffffff; 
+  color: #ffffff; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-navbar .btn-outline-light:hover {
+  background-color: #ffffff; 
+  color: #333333;
+}
+
+.custom-navbar .material-icons {
+  color: #ffffff; 
+}
+
+
+@media (max-width: 992px) {
+  .custom-navbar .nav-link {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}

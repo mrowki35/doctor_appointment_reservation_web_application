@@ -1,0 +1,91 @@
+<!-- register-doctor.component.html -->
+<div class="register-doctor-container">
+  <h2>Register New Doctor</h2>
+
+  <!-- Feedback Message -->
+  <div
+    *ngIf="message"
+    [ngClass]="{ 'success-message': !isError, 'error-message': isError }"
+  >
+    {{ message }}
+  </div>
+
+  <!-- Registration Form -->
+  <form (ngSubmit)="registerDoctor()" #doctorForm="ngForm">
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="imie">First Name:</label>
+      <input
+        type="text"
+        id="imie"
+        name="imie"
+        [(ngModel)]="newDoctor.imie"
+        required
+        minlength="2"
+        #imie="ngModel"
+      />
+      <div *ngIf="imie.invalid && (imie.dirty || imie.touched)" class="error">
+        <div *ngIf="imie.errors?.['required']">First name is required.</div>
+        <div *ngIf="imie.errors?.['minlength']">
+          First name must be at least 2 characters long.
+        </div>
+      </div>
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="nazwisko">Last Name:</label>
+      <input
+        type="text"
+        id="nazwisko"
+        name="nazwisko"
+        [(ngModel)]="newDoctor.nazwisko"
+        required
+        minlength="2"
+        #nazwisko="ngModel"
+      />
+      <div
+        *ngIf="nazwisko.invalid && (nazwisko.dirty || nazwisko.touched)"
+        class="error"
+      >
+        <div *ngIf="nazwisko.errors?.['required']">Last name is required.</div>
+        <div *ngIf="nazwisko.errors?.['minlength']">
+          Last name must be at least 2 characters long.
+        </div>
+      </div>
+    </div>
+
+    <!-- Specialization -->
+    <div class="form-group">
+      <label for="specjalizacja">Specialization:</label>
+      <input
+        type="text"
+        id="specjalizacja"
+        name="specjalizacja"
+        [(ngModel)]="newDoctor.specjalizacja"
+        required
+        minlength="3"
+        #specjalizacja="ngModel"
+      />
+      <div
+        *ngIf="
+          specjalizacja.invalid &&
+          (specjalizacja.dirty || specjalizacja.touched)
+        "
+        class="error"
+      >
+        <div *ngIf="specjalizacja.errors?.['required']">
+          Specialization is required.
+        </div>
+        <div *ngIf="specjalizacja.errors?.['minlength']">
+          Specialization must be at least 3 characters long.
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="doctorForm.invalid">
+      Register Doctor
+    </button>
+  </form>
+</div>

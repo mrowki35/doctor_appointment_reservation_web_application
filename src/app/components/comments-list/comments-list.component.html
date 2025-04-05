@@ -1,0 +1,100 @@
+<div class="comments-list-container">
+  <h2>Patient comments</h2>
+
+  <!-- Filtry -->
+  <div class="filter-section">
+    <input
+      type="text"
+      placeholder="Wyszukaj po treści"
+      [(ngModel)]="searchContent"
+      (input)="filterComments()"
+    />
+    <input
+      type="text"
+      placeholder="Wyszukaj po ID Lekarza"
+      [(ngModel)]="searchDoctorId"
+      (input)="filterComments()"
+    />
+    <button (click)="clearFilters()">Clear filters</button>
+  </div>
+
+  <div class="add-comment-section" *ngIf="userId && !isAdmin">
+    <h3>Add comment</h3>
+    <form (ngSubmit)="addComment()">
+      <div>
+        <label for="doctor-select">Lekarz:</label>
+        <select
+          id="doctor-select"
+          [(ngModel)]="selectedDoctorId"
+          name="doctorId"
+          required
+        >
+          <option value="" disabled selected>Choose doctor</option>
+          <option
+            *ngFor="let doctor of doctors"
+            [value]="doctor.id"
+            [disabled]="!canComment(doctor.id)"
+          >
+            {{ doctor.imie }} {{ doctor.nazwisko }} ({{ doctor.specjalizacja }})
+            <span *ngIf="!canComment(doctor.id)" style="color: red">
+              - No reservation</span
+            >
+          </option>
+        </select>
+      </div>
+      <div>
+        <label for="content">Comment:</label>
+        <textarea
+          id="content"
+          [(ngModel)]="newComment.content"
+          name="content"
+          required
+        ></textarea>
+      </div>
+      <div>
+        <label for="rate">Grade (1-10):</label>
+        <input
+          type="number"
+          id="rate"
+          [(ngModel)]="newComment.rate"
+          name="rate"
+          min="1"
+          max="10"
+          required
+        />
+      </div>
+      <button type="submit">Add comment</button>
+    </form>
+  </div>
+
+  <div *ngIf="filteredComments.length > 0; else noComments">
+    <table class="comments-table">
+      <thead>
+        <tr>
+          <th>Comment</th>
+          <th>Date</th>
+          <th>Patient ID</th>
+          <th>Grade</th>
+          <th>Akctions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let comment of filteredComments">
+          <td>{{ comment.content }}</td>
+          <td>{{ comment.date.toDate() | date : "short" }}</td>
+          <td>{{ comment.userId }}</td>
+          <td>{{ comment.rate }}</td>
+          <td>
+            <button *ngIf="isAdmin" (click)="deleteComment(comment)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noComments>
+    <p>No comments.</p>
+  </ng-template>
+</div>

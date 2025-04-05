@@ -1,0 +1,88 @@
+<!-- moje-rezerwacje.component.html -->
+
+<div class="reservation-list-container">
+  <h2>My Reservations</h2>
+
+  <div *ngIf="reservations.length === 0" class="no-reservations-message">
+    No available reservations
+  </div>
+
+  <div class="reservation-card-container">
+    <div *ngFor="let reservation of reservations" class="reservation-card">
+      <h3>Reservation: {{ reservation.id }}</h3>
+      <p><strong>Date:</strong> {{ reservation.data | date : "shortDate" }}</p>
+      <p><strong>Start:</strong> {{ reservation.start }}</p>
+      <p><strong>End:</strong> {{ reservation.koniec }}</p>
+      <p><strong>Doctor ID:</strong> {{ reservation.lekarzId }}</p>
+      <p>
+        <strong>Consultation Type:</strong> {{ reservation.typ_konsultacji }}
+      </p>
+      <p><strong>Additional Info:</strong> {{ reservation.informacje }}</p>
+      <p><strong>Paid:</strong> {{ reservation.paid ? "Yes" : "No" }}</p>
+      <p><strong>Finished:</strong> {{ reservation.done ? "Yes" : "No" }}</p>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <!-- Add Comment Button -->
+        <button
+          class="btn btn-custom-primary"
+          (click)="openCommentDialog(reservation)"
+          [disabled]="!reservation.done"
+        >
+          Add Comment
+        </button>
+
+        <!-- Cancel Reservation Button - visible only if done = false -->
+        <button
+          *ngIf="!reservation.done"
+          class="btn btn-custom-cancel"
+          (click)="cancelReservation(reservation)"
+        >
+          Cancel Reservation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comment Dialog -->
+  <div *ngIf="isCommentDialogOpen" class="dialog-backdrop">
+    <div class="dialog">
+      <h3>Add Comment</h3>
+      <form (ngSubmit)="submitComment()">
+        <label for="rate">Grade (1-10):</label>
+        <input
+          type="number"
+          id="rate"
+          [(ngModel)]="commentData.rate"
+          name="rate"
+          min="1"
+          max="10"
+          required
+        />
+        <label for="content">Comment:</label>
+        <textarea
+          id="content"
+          [(ngModel)]="commentData.content"
+          name="content"
+          required
+        ></textarea>
+        <div class="dialog-buttons">
+          <button
+            type="submit"
+            class="btn btn-custom-primary"
+            [disabled]="!isCommentFormValid()"
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            class="btn btn-custom-cancel"
+            (click)="closeCommentDialog()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

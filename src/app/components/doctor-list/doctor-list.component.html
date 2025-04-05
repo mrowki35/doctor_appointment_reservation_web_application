@@ -1,0 +1,40 @@
+<div class="doctor-list-container">
+  <h2>List of Doctors</h2>
+
+  <div *ngIf="doctors.length === 0" class="no-doctors-message">
+    No doctors available.
+  </div>
+
+  <div class="doctor-card-container">
+    <div *ngFor="let doctor of doctors" class="doctor-card">
+      <h3>{{ doctor.imie }} {{ doctor.nazwisko }}</h3>
+      <p><strong>Specialization:</strong> {{ doctor.specjalizacja }}</p>
+      <p><strong>ID:</strong> {{ doctor.id }}</p>
+
+      <div
+        class="comments-container"
+        *ngIf="getCommentsForDoctor(doctor.id).length > 0"
+      >
+        <h4>Komentarze:</h4>
+        <div
+          class="comment"
+          *ngFor="let comment of getCommentsForDoctor(doctor.id)"
+        >
+          <p><strong>Grade:</strong> {{ comment.rate }}</p>
+          <p><strong>Comment:</strong> {{ comment.content }}</p>
+          <p>
+            <strong>Date:</strong> {{ comment.date.toDate() | date : "short" }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Komunikat, jeśli brak komentarzy -->
+      <div
+        class="no-comments-message"
+        *ngIf="getCommentsForDoctor(doctor.id).length === 0"
+      >
+        No comments available for this doctor.
+      </div>
+    </div>
+  </div>
+</div>

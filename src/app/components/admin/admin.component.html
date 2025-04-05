@@ -1,0 +1,39 @@
+<!-- admin.component.html -->
+<div class="admin-container">
+  <h2>Admin Configuration Panel</h2>
+
+  <!-- Login Persistence Mode Selection -->
+  <section class="config-section">
+    <h3>Login Persistence Mode</h3>
+    <div *ngFor="let option of persistenceOptions">
+      <label>
+        <input
+          type="radio"
+          name="loginPersistence"
+          [value]="option.value"
+          [(ngModel)]="configuration.loginPersistence"
+        />
+        {{ option.label }}
+      </label>
+    </div>
+  </section>
+
+  <!-- Database Selection -->
+  <section class="config-section">
+    <h3>Database Selection</h3>
+    <div *ngFor="let option of databaseOptions">
+      <label>
+        <input
+          type="radio"
+          name="database"
+          [value]="option.value"
+          [(ngModel)]="configuration.database"
+        />
+        {{ option.label }}
+      </label>
+    </div>
+  </section>
+
+  <!-- Submit Button -->
+  <button (click)="updateConfiguration()">Update Configuration</button>
+</div>

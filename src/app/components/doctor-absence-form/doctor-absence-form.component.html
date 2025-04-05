@@ -1,0 +1,22 @@
+<div class="calendar-header">
+  <button (click)="prevMonth()">Previous</button>
+  <span>{{ selectedYear }} - {{ selectedMonth + 1 }}</span>
+  <button (click)="nextMonth()">Next</button>
+</div>
+
+<div class="calendar-grid">
+  <div *ngFor="let day of getCalendarDays()">
+    <div
+      class="calendar-day"
+      [class.selected]="isSelected(day.getDate())"
+      (click)="selectDay(day.getDate())"
+    >
+      {{ day.getDate() }}
+    </div>
+  </div>
+</div>
+
+<!-- Submit Button -->
+<div class="submit-container">
+  <button (click)="submitAbsences()">Submit</button>
+</div>

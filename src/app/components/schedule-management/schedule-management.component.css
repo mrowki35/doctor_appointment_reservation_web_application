@@ -1,0 +1,53 @@
+/* schedule-management.component.css */
+
+.schedule-management-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #333; 
+  border-radius: 8px;
+  background-color: #ffffff; 
+  text-align: center;
+}
+
+.schedule-management-container h2 {
+  color: #000000;
+  margin-bottom: 1.5rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-custom-primary {
+  padding: 0.75rem 1.5rem;
+  background-color: #333333; 
+  color: #ffffff; 
+  border: 1px solid #333333;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-custom-primary:hover {
+  background-color: #555555; 
+}
+
+.btn-custom-secondary {
+  padding: 0.75rem 1.5rem;
+  background-color: #ffffff; 
+  color: #333333; 
+  border: 1px solid #333333;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-custom-secondary:hover {
+  background-color: #eeeeee; 
+}

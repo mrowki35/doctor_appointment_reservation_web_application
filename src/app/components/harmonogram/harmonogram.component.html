@@ -1,0 +1,70 @@
+<!-- harmonogram.component.html -->
+
+<div class="harmonogram-container">
+  <h2>Twój Harmonogram</h2>
+
+  <!-- Sekcja Absencje -->
+  <div class="section absencje-section">
+    <h3>Absencje</h3>
+    <table *ngIf="absencje.length > 0; else noAbsencje" class="data-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let absencja of absencje">
+          <td>{{ absencja.data | date : "fullDate" }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noAbsencje>
+      <p class="no-data-message">Brak absencji.</p>
+    </ng-template>
+  </div>
+
+  <!-- Sekcja Dostępności -->
+  <div class="section dostepnosci-section">
+    <h3>Dostępności</h3>
+    <table
+      *ngIf="dostepnosci.length > 0; else noDostepnosci"
+      class="data-table"
+    >
+      <thead>
+        <tr>
+          <th>Start</th>
+          <th>Koniec</th>
+          <th>Poniedziałek</th>
+          <th>Wtorek</th>
+          <th>Środa</th>
+          <th>Czwartek</th>
+          <th>Piątek</th>
+          <th>Sobota</th>
+          <th>Niedziela</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dostepnosc of dostepnosci">
+          <td>
+            {{ dostepnosc.startDate | date : "shortDate" }}
+            {{ dostepnosc.startTime }}
+          </td>
+          <td>
+            {{ dostepnosc.endDate | date : "shortDate" }}
+            {{ dostepnosc.endTime }}
+          </td>
+          <td>{{ dostepnosc.monday ? "Tak" : "Nie" }}</td>
+          <td>{{ dostepnosc.tuesday ? "Tak" : "Nie" }}</td>
+          <td>{{ dostepnosc.wednesday ? "Tak" : "Nie" }}</td>
+          <td>{{ dostepnosc.thursday ? "Tak" : "Nie" }}</td>
+          <td>{{ dostepnosc.friday ? "Tak" : "Nie" }}</td>
+          <td>{{ dostepnosc.saturday ? "Tak" : "Nie" }}</td>
+          <td>{{ dostepnosc.sunday ? "Tak" : "Nie" }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noDostepnosci>
+      <p class="no-data-message">Brak dostępności.</p>
+    </ng-template>
+  </div>
+</div>

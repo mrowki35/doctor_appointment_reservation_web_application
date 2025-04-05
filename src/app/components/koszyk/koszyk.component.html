@@ -1,0 +1,36 @@
+<!-- koszyk.component.html -->
+
+<div class="cart-container">
+  <h2>Cart</h2>
+
+  <div *ngIf="reservations.length === 0" class="no-reservations-message">
+    Your cart is empty.
+  </div>
+
+  <div class="cart-item-container">
+    <div *ngFor="let reservation of reservations" class="cart-item">
+      <div>
+        <strong>Date:</strong> {{ reservation.data | date : "yyyy-MM-dd" }}
+      </div>
+      <div>
+        <strong>Time:</strong> {{ reservation.start }} -
+        {{ reservation.koniec }}
+      </div>
+      <div><strong>Doctor ID:</strong> {{ reservation.lekarzId }}</div>
+      <div>
+        <strong>Status:</strong> {{ reservation.paid ? "Paid" : "Not Paid" }}
+      </div>
+      <div class="cart-item-actions">
+        <button
+          (click)="deleteReservation(reservation)"
+          class="btn btn-custom-delete"
+        >
+          Remove
+        </button>
+        <button (click)="markAsPaid(reservation)" class="btn btn-custom-pay">
+          Pay
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
